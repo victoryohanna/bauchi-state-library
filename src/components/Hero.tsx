@@ -36,11 +36,11 @@ export default function Hero() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <button className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-yellow-500 transition duration-200 flex items-center justify-center text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                <button className="bg-yellow-500 text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-white transition duration-200 flex items-center justify-center text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                   Become a Member
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
-                <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition duration-200 text-lg backdrop-blur-sm bg-white/10">
+                <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition duration-200 text-lg backdrop-blur-sm bg-white/10">
                   Explore Collections
                 </button>
               </div>

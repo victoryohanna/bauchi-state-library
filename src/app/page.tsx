@@ -4,6 +4,7 @@ import Services from "../components/Services";
 import FeaturedCollections from "../components/FeaturedCollections";
 import Events from "../components/Events";
 import Footer from "../components/Footer";
+import BoardMembers from "../components/BoardMembers";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Services />
+      <BoardMembers />
       <FeaturedCollections />
       <Events />
       <Footer />
