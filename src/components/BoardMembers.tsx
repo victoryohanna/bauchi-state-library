@@ -207,12 +207,12 @@ export default function BoardMembers() {
               </div>
 
               {/* View All Button */}
-              <div className="mt-6 text-center">
+              {/* <div className="mt-6 text-center">
                 <button className="text-primary font-semibold text-sm hover:text-blue-700 transition duration-200 flex items-center justify-center w-full py-2 border border-primary rounded-lg hover:bg-primary">
                   View Full Team
                   <Users className="h-4 w-4 ml-2" />
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
