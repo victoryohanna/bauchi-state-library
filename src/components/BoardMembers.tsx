@@ -100,7 +100,7 @@ export default function BoardMembers() {
                       <Image
                         src={chiefLibrarian.image}
                         alt={chiefLibrarian.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cove"
                         priority
                       />
                     </div>
@@ -108,7 +108,7 @@ export default function BoardMembers() {
                   </div>
 
                   {/* Quick Contact - Hidden on mobile, shown on desktop */}
-                  <div className="mt-6 space-y-3 hidden md:block">
+                  {/* <div className="mt-6 space-y-3 hidden md:block">
                     <div className="flex items-center text-gray-600">
                       <Mail className="h-4 w-4 mr-3" />
                       <span className="text-sm">{chiefLibrarian.email}</span>
@@ -117,7 +117,7 @@ export default function BoardMembers() {
                       <Phone className="h-4 w-4 mr-3" />
                       <span className="text-sm">{chiefLibrarian.phone}</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Chief Librarian Details */}
