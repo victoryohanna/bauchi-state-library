@@ -10,7 +10,7 @@ export default function Hero() {
         <Image
           src={library}
           alt="Bauchi State Library Interior"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cove"
         />
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/50"></div>
