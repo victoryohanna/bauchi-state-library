@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Mail, Phone, Award,  Users } from "lucide-react";
+import { Mail, Phone, Award,  User } from "lucide-react";
 import librarian from "@/assets/images/librarian.jpg";
 const boardMembers = [
   {
@@ -58,9 +58,20 @@ Conclusively, Umar Kasim Ningi is happily married with many children. His Hobbie
   },
 ];
 
+// ... (imports and boardMembers array remain the same)
+
 export default function BoardMembers() {
   const chiefLibrarian = boardMembers[0];
   const otherMembers = boardMembers.slice(1);
+
+  // Different background gradients for variety
+  const placeholderGradients = [
+    "from-blue-500 to-blue-700",
+    "from-green-500 to-green-700", 
+    "from-purple-500 to-purple-700",
+    "from-orange-500 to-orange-700",
+    "from-pink-500 to-pink-700",
+  ];
 
   return (
     <section className="py-16 bg-white">
@@ -76,29 +87,28 @@ export default function BoardMembers() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-9 gap-8">
-          {/* Chief Librarian - col-6 equivalent */}
+        {/* Main Content - Responsive Layout */}
+        <div className="space-y-12 lg:space-y-0 lg:grid lg:grid-cols-9 lg:gap-8">
+          {/* Chief Librarian - Full width on mobile, col-6 on desktop */}
           <div className="lg:col-span-6">
-            <div className="bg-linear-to-br from-primary/5 to-blue-100/30 rounded-2xl p-8 border border-gray-200">
-              <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-bright from-primary/5 to-blue-100/30 rounded-2xl p-6 md:p-8 border border-gray-200">
+              <div className="grid md:grid-cols-3 gap-6 md:gap-8">
                 {/* Chief Librarian Image */}
                 <div className="md:col-span-1">
                   <div className="relative group">
                     <div className="w-full aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-lg">
-                      {/* Placeholder for image */}
-                      <div className="w-full h-full bg-linear-to-br from-primary to-blue-700 flex items-center justify-center text-white">
-                        <Image
-                          src={chiefLibrarian.image}
-                          alt="Bauchi State Library Interior"
-                          className="w-full h-full object-cove"
-                        />
-                      </div>
+                      <Image
+                        src={chiefLibrarian.image}
+                        alt={chiefLibrarian.name}
+                        className="w-full h-full object-cover"
+                        priority
+                      />
                     </div>
                     <div className="absolute inset-0 bg-accent/20 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300"></div>
                   </div>
 
-                  {/* Quick Contact */}
-                  {/* <div className="mt-6 space-y-3">
+                  {/* Quick Contact - Hidden on mobile, shown on desktop */}
+                  <div className="mt-6 space-y-3 hidden md:block">
                     <div className="flex items-center text-gray-600">
                       <Mail className="h-4 w-4 mr-3" />
                       <span className="text-sm">{chiefLibrarian.email}</span>
@@ -107,71 +117,71 @@ export default function BoardMembers() {
                       <Phone className="h-4 w-4 mr-3" />
                       <span className="text-sm">{chiefLibrarian.phone}</span>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
 
                 {/* Chief Librarian Details */}
                 <div className="md:col-span-2">
                   <div className="mb-6">
-                    <h3 className="text-3xl font-bold text-gray-800 mb-2">
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
                       {chiefLibrarian.name}
                     </h3>
                     <div className="flex items-center text-primary font-semibold mb-4">
                       <Award className="h-5 w-5 mr-2" />
                       {chiefLibrarian.position}
                     </div>
-                    <p className="text-gray-600 leading-relaxed mb-6">
+                    <p className="text-gray-600 leading-relaxed text-sm md:text-base whitespace-pre-line">
                       {chiefLibrarian.bio}
                     </p>
                   </div>
 
-                  {/* Qualifications and Experience */}
-                  {/* <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
-                      <BookOpen className="h-8 w-8 text-primary mb-3" />
-                      <h4 className="font-semibold text-gray-800 mb-2">
-                        Qualifications
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        {chiefLibrarian.qualifications}
-                      </p>
+                  {/* Contact Info - Shown on mobile, hidden on desktop */}
+                  <div className="mt-6 space-y-3 md:hidden">
+                    <div className="flex items-center text-gray-600">
+                      <Mail className="h-4 w-4 mr-3" />
+                      <span className="text-sm">{chiefLibrarian.email}</span>
                     </div>
-                    <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
-                      <Users className="h-8 w-8 text-primary mb-3" />
-                      <h4 className="font-semibold text-gray-800 mb-2">
-                        Experience
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        {chiefLibrarian.experience}
-                      </p>
+                    <div className="flex items-center text-gray-600">
+                      <Phone className="h-4 w-4 mr-3" />
+                      <span className="text-sm">{chiefLibrarian.phone}</span>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Other Board Members - col-3 equivalent */}
+          {/* Other Board Members - Full width on mobile, col-3 on desktop */}
           <div className="lg:col-span-3">
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
               <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
                 Board Members
               </h3>
 
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {otherMembers.map((member, index) => (
                   <div
                     key={index}
                     className="bg-white rounded-xl p-4 border border-gray-200 hover:shadow-md transition duration-300 group cursor-pointer"
                   >
                     <div className="flex items-center space-x-4">
-                      {/* Member Avatar */}
+                      {/* Member Avatar with Colorful Placeholder */}
                       <div className="shrink-0">
-                        <div className="w-12 h-12 rounded-full bg-linear-to-br from-primary to-blue-600 flex items-center justify-center text-white text-sm font-semibold group-hover:scale-110 transition duration-300">
-                          {member.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
+                        <div className={`relative w-12 h-12 rounded-full overflow-hidden bg-gradient-to-bright ${placeholderGradients[index % placeholderGradients.length]} `}>
+                          {/* Initials Display */}
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="text-white font-semibold text-sm">
+                              {member.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                            </span>
+                          </div>
+                          
+                          {/* Hover Effect - User Icon */}
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 ">
+                            <User className="h-5 w-5 text-white" />
+                          </div>
                         </div>
                       </div>
 
@@ -189,8 +199,22 @@ export default function BoardMembers() {
                       </div>
                     </div>
 
-                    {/* Hover Contact Info */}
-                    <div className="mt-3 pt-3 border-t border-gray-100 opacity-0 group-hover:opacity-100 transition duration-300">
+                    {/* Hover Contact Info - Hidden on mobile, shown on hover for desktop */}
+                    <div className="mt-3 pt-3 border-t border-gray-100 opacity-0 group-hover:opacity-100 transition duration-300 hidden md:block">
+                      <div className="flex items-center justify-between text-xs">
+                        <div className="flex items-center text-gray-600">
+                          <Mail className="h-3 w-3 mr-1" />
+                          <span className="truncate">{member.email}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <Phone className="h-3 w-3 mr-1" />
+                          <span>{member.phone.split(" ")[1]}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Contact Info - Always visible on mobile */}
+                    <div className="mt-3 pt-3 border-t border-gray-100 md:hidden">
                       <div className="flex items-center justify-between text-xs">
                         <div className="flex items-center text-gray-600">
                           <Mail className="h-3 w-3 mr-1" />
@@ -205,56 +229,7 @@ export default function BoardMembers() {
                   </div>
                 ))}
               </div>
-
-              {/* View All Button */}
-              {/* <div className="mt-6 text-center">
-                <button className="text-primary font-semibold text-sm hover:text-blue-700 transition duration-200 flex items-center justify-center w-full py-2 border border-primary rounded-lg hover:bg-primary">
-                  View Full Team
-                  <Users className="h-4 w-4 ml-2" />
-                </button>
-              </div> */}
             </div>
-          </div>
-        </div>
-
-        {/* Mobile Responsive Layout */}
-        <div className="lg:hidden mt-8">
-          <div className="grid md:grid-cols-2 gap-6">
-            {otherMembers.map((member, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition duration-300"
-              >
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-16 h-16 rounded-full bg-linear-to-br from-primary to-blue-600 flex items-center justify-center text-white font-semibold text-lg">
-                    {member.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-lg">
-                      {member.name}
-                    </h4>
-                    <p className="text-primary font-semibold">
-                      {member.position}
-                    </p>
-                    <p className="text-sm text-gray-600">{member.department}</p>
-                  </div>
-                </div>
-
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center text-gray-600">
-                    <Mail className="h-4 w-4 mr-2" />
-                    <span>{member.email}</span>
-                  </div>
-                  <div className="flex items-center text-gray-600">
-                    <Phone className="h-4 w-4 mr-2" />
-                    <span>{member.phone}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
