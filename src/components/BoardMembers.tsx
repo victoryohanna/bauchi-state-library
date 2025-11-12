@@ -1,16 +1,20 @@
-import { User, Mail, Phone, Award, BookOpen, Users } from "lucide-react";
-
+import Image from "next/image"
+import { Mail, Phone, Award,  Users } from "lucide-react";
+import librarian from "@/assets/images/librarian.jpg";
 const boardMembers = [
   {
-    name: "Dr. Aminu B. Sani",
+    name: "Umar Kasim Ningi ",
     position: "Chief Librarian",
     department: "Library Administration",
-    image: "/images/chief-librarian.jpg",
+    image: librarian,
     email: "a.sani@bauchilibrary.gov.ng",
     phone: "+234 801 234 5678",
     qualifications: "PhD in Library Science, MLIS, BLIS",
     experience: "25+ years in library management",
-    bio: "Dr. Aminu B. Sani is a distinguished library scientist with over two decades of experience in transforming library services across Northern Nigeria. Under his leadership, Bauchi State Library has digitized its collections and expanded community outreach programs.",
+    bio: `Umar Kasim Ningi, CLN was born on 7th February, 1970. He is an indigene of Ningi town, Ningi L.G.A. of Bauchi State Nigeria. Attended Ningi Central Primary school from 1977 to 1982, Government secondary school Jama’are from 1983 to 1988. However, he proceed to College for legal and Islamic studies Misau where he obtained Diploma in English, Hausa & Islamic studies in 1992. On August 1st 1993 he was appointed as a Class Teacher by Ningi Local Government Authority. While in the service, he obtained NCE in PES/English, Advance Diploma in Information Management from Bayero University, Kano.  This is what gave him the opportunity to study his BA Library and Information Science/English from Bayero University, Kano. He serve in many capacities while he was with Ningi Local Education authority ranking from Class Teacher to Headmaster and later Principal Junior secondary School \ 
+Meanwhile, in order to deliver his services effectively and efficiently base on his own profession transferred his services to the Bauchi State Library Board in 2011. He worked as a Library supervisor, College Librarian at Bill and Melinder Gates, college of Health Science and Technology, Ningi Bauchi State. He was a director Schools Libraries Services. He was also appointed Deputy State Librarian and now substantive State Librarian Bauchi State Library Board from May, 2025 to date. \
+Conclusively, Umar Kasim Ningi is happily married with many children. His Hobbies are readings and farming. He strongly dislikes arrogancy and lateness.
+`,
   },
   {
     name: "Hajiya Fatima Usman",
@@ -83,14 +87,18 @@ export default function BoardMembers() {
                     <div className="w-full aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-lg">
                       {/* Placeholder for image */}
                       <div className="w-full h-full bg-linear-to-br from-primary to-blue-700 flex items-center justify-center text-white">
-                        <User className="h-20 w-20" />
+                        <Image
+                          src={chiefLibrarian.image}
+                          alt="Bauchi State Library Interior"
+                          className="w-full h-full object-cove"
+                        />
                       </div>
                     </div>
                     <div className="absolute inset-0 bg-accent/20 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300"></div>
                   </div>
 
                   {/* Quick Contact */}
-                  <div className="mt-6 space-y-3">
+                  {/* <div className="mt-6 space-y-3">
                     <div className="flex items-center text-gray-600">
                       <Mail className="h-4 w-4 mr-3" />
                       <span className="text-sm">{chiefLibrarian.email}</span>
@@ -99,7 +107,7 @@ export default function BoardMembers() {
                       <Phone className="h-4 w-4 mr-3" />
                       <span className="text-sm">{chiefLibrarian.phone}</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Chief Librarian Details */}
@@ -118,7 +126,7 @@ export default function BoardMembers() {
                   </div>
 
                   {/* Qualifications and Experience */}
-                  <div className="grid sm:grid-cols-2 gap-6">
+                  {/* <div className="grid sm:grid-cols-2 gap-6">
                     <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
                       <BookOpen className="h-8 w-8 text-primary mb-3" />
                       <h4 className="font-semibold text-gray-800 mb-2">
@@ -137,7 +145,7 @@ export default function BoardMembers() {
                         {chiefLibrarian.experience}
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { ArrowRight, Users, BookOpen, Clock } from "lucide-react";
-import library1 from "../assets/images/library1.jpeg"
+import library from "@/assets/images/library.jpg"
 
 export default function Hero() {
   return (
@@ -8,7 +8,7 @@ export default function Hero() {
       {/* Background Image with Local Image */}
       <div className="absolute inset-0">
         <Image
-          src={library1}
+          src={library}
           alt="Bauchi State Library Interior"
           className="w-full h-full object-cover"
         />
