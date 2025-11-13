@@ -78,10 +78,16 @@ export default function Navbar() {
           <div className="md:hidden py-4 border-t">
             <div className="flex flex-col space-y-4">
               <Link
-                href="#"
+                href="/"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Home
+              </Link>
+              <Link
+                href="/about"
+                className="text-gray-700 hover:text-primary font-medium"
+              >
+                About
               </Link>
               <Link
                 href="#"
@@ -95,18 +101,7 @@ export default function Navbar() {
               >
                 Services
               </Link>
-              <Link
-                href="#"
-                className="text-gray-700 hover:text-primary font-medium"
-              >
-                Events
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-700 hover:text-primary font-medium"
-              >
-                About
-              </Link>
+
               <Link
                 href="#"
                 className="text-gray-700 hover:text-primary font-medium"
