@@ -7,47 +7,48 @@ export default function StatsSection() {
       number: "22,000+",
       label: "Books Available",
       description: "Extensive collection covering all genres",
+      bgColor: "from-blue-50 to-indigo-100",
+      iconColor: "from-blue-500 to-blue-700",
     },
     {
       icon: Users,
       number: "15,000+",
       label: "Active Members",
       description: "Growing community of readers",
+      bgColor: "from-emerald-50 to-teal-100",
+      iconColor: "from-emerald-500 to-teal-700",
     },
     {
       icon: Clock,
       number: "40+",
       label: "Years Serving",
       description: "Trusted institution since 1976",
+      bgColor: "from-amber-50 to-orange-100",
+      iconColor: "from-amber-500 to-orange-700",
     },
     {
       icon: Calendar,
       number: "7",
       label: "Days a Week",
       description: "Always open for you",
+      bgColor: "from-violet-50 to-purple-100",
+      iconColor: "from-violet-500 to-purple-700",
     },
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-bright from-gray-50 to-blue-50">
+    <section className="py-16 bg-linear-to-br from-slate-50 to-blue-50">
       <div className="max-w-6xl mx-auto px-4">
-        {/* <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-            Why Choose Our Library?
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-            Experience excellence in library services with our comprehensive
-            resources and dedicated community support
-          </p>
-        </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-6 sm:p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group hover:transform hover:-translate-y-2"
+              className={`bg-linear-to-br ${stat.bgColor} rounded-2xl p-6 sm:p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50 group hover:transform hover:-translate-y-2`}
             >
-              <div className="bg-gradient-to-bright from-primary to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div
+                className={`bg-linear-to-br ${stat.iconColor} w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-md`}
+              >
                 <stat.icon className="h-8 w-8 text-white" />
               </div>
 
@@ -55,7 +56,7 @@ export default function StatsSection() {
                 {stat.number}
               </div>
 
-              <div className="text-lg font-semibold text-primary mb-3">
+              <div className="text-lg font-semibold text-gray-700 mb-3">
                 {stat.label}
               </div>
 
@@ -65,14 +66,9 @@ export default function StatsSection() {
             </div>
           ))}
         </div>
-
-        {/* Additional Call-to-Action */}
-        {/* <div className="text-center mt-12">
-          <button className="bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl">
-            Learn More About Our Services
-          </button>
-        </div> */}
+        
       </div>
     </section>
   );
 }
+
