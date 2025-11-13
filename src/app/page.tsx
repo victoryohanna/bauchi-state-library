@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import StatsSection from "../components/StatsSection";
 import Services from "../components/Services";
 import FeaturedCollections from "../components/FeaturedCollections";
 import Events from "../components/Events";
@@ -11,6 +12,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
       <Hero />
+      <StatsSection />
       <Services />
       <BoardMembers />
       <FeaturedCollections />

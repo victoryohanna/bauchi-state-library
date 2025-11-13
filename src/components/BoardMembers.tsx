@@ -4,16 +4,16 @@ import librarian from "@/assets/images/librarian.jpg";
 const boardMembers = [
   {
     name: "Umar Kasim Ningi ",
-    position: "Chief Librarian",
+    position: "State Librarian",
     department: "Library Administration",
     image: librarian,
     email: "a.sani@bauchilibrary.gov.ng",
     phone: "+234 801 234 5678",
     qualifications: "PhD in Library Science, MLIS, BLIS",
     experience: "25+ years in library management",
-    bio: `Umar Kasim Ningi, CLN was born on 7th February, 1970. He is an indigene of Ningi town, Ningi L.G.A. of Bauchi State Nigeria. Attended Ningi Central Primary school from 1977 to 1982, Government secondary school Jama’are from 1983 to 1988. However, he proceed to College for legal and Islamic studies Misau where he obtained Diploma in English, Hausa & Islamic studies in 1992. On August 1st 1993 he was appointed as a Class Teacher by Ningi Local Government Authority. While in the service, he obtained NCE in PES/English, Advance Diploma in Information Management from Bayero University, Kano.  This is what gave him the opportunity to study his BA Library and Information Science/English from Bayero University, Kano. He serve in many capacities while he was with Ningi Local Education authority ranking from Class Teacher to Headmaster and later Principal Junior secondary School \ 
-Meanwhile, in order to deliver his services effectively and efficiently base on his own profession transferred his services to the Bauchi State Library Board in 2011. He worked as a Library supervisor, College Librarian at Bill and Melinder Gates, college of Health Science and Technology, Ningi Bauchi State. He was a director Schools Libraries Services. He was also appointed Deputy State Librarian and now substantive State Librarian Bauchi State Library Board from May, 2025 to date. \
-Conclusively, Umar Kasim Ningi is happily married with many children. His Hobbies are readings and farming. He strongly dislikes arrogancy and lateness.
+    bio: `Umar Kasim Ningi, CLN was born on 7th February, 1970. He is an indigene of Ningi town, Ningi L.G.A. of Bauchi State Nigeria. Attended Ningi Central I Primary school from 1977 to 1982, Government secondary school Jama’are from 1983 to 1988. However, he proceeded to College for legal and Islamic studies Misau where he obtained Diploma in English, Hausa & Islamic studies in 1992. On August 1st 1993 he was appointed as a Class Teacher by Ningi Local Government Authority. While in the service, he obtained NCE in PES/English, Advance Diploma in Information Management from Bayero University, Kano.  This is what gave him the opportunity to study his BA Library and Information Science/English from Bayero University, Kano. He serve in many capacities while he was with Ningi Local Education authority ranking from Class Teacher to Headmaster and later Principal Junior secondary School \ 
+Meanwhile, in order to deliver his services effectively and efficiently base on his own profession he transferred his services to the Bauchi State Library Board in 2011. He worked as a Library supervisor, College Librarian at Bill and Melinda Gates, college of Health Science and Technology, Ningi Bauchi State. He was a director Schools Libraries Services. He was also appointed as Deputy State Librarian and now substantive State Librarian Bauchi State Library Board from May, 2025 to date. \
+Conclusively, Umar Kasim Ningi is happily married with many children. His Hobbies are readings and farming. He strongly dislikes arrogancy and laziness.
 `,
   },
   {
