@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar";
+
 import Hero from "../components/Hero";
 import StatsSection from "../components/StatsSection";
 import Services from "../components/Services";
@@ -10,7 +10,7 @@ import BoardMembers from "../components/BoardMembers";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <Navbar />
+      
       <Hero />
       <StatsSection />
       <Services />

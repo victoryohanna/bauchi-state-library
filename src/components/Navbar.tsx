@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, BookOpen, Search } from "lucide-react";
+import { Menu, X, BookOpen } from "lucide-react";
+import Link from "next/link"
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,54 +21,39 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="#"
+            <Link
+              href="/"
               className="text-gray-700 hover:text-primary font-medium"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
+              href="/about"
+              className="text-gray-700 hover:text-primary font-medium"
+            >
+              About
+            </Link>
+            <Link
               href="#"
               className="text-gray-700 hover:text-primary font-medium"
             >
               Collections
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="text-gray-700 hover:text-primary font-medium"
             >
               Services
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 hover:text-primary font-medium"
-            >
-              Events
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 hover:text-primary font-medium"
-            >
-              About
-            </a>
-            <a
+            </Link>
+
+            <Link
               href="#"
               className="text-gray-700 hover:text-primary font-medium"
             >
               Contact
-            </a>
+            </Link>
 
-            {/* Search Bar */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <input
-                type="text"
-                placeholder="Search books..."
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </div>
-
-            <button className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+            <button className="bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-400 transition duration-200">
               Member Login
             </button>
           </div>
@@ -91,53 +77,44 @@ export default function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <div className="flex flex-col space-y-4">
-              <a
+              <Link
                 href="#"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Home
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Collections
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Services
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Events
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 About
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Contact
-              </a>
+              </Link>
 
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Search books..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-
-              <button className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+              <button className="bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-400 transition duration-200">
                 Member Login
               </button>
             </div>
