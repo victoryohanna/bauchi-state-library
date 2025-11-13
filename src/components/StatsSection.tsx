@@ -4,7 +4,7 @@ export default function StatsSection() {
   const stats = [
     {
       icon: BookOpen,
-      number: "50,000+",
+      number: "22,000+",
       label: "Books Available",
       description: "Extensive collection covering all genres",
     },
@@ -18,7 +18,7 @@ export default function StatsSection() {
       icon: Clock,
       number: "40+",
       label: "Years Serving",
-      description: "Trusted institution since 1984",
+      description: "Trusted institution since 1976",
     },
     {
       icon: Calendar,
