@@ -39,7 +39,7 @@ Conclusively, Umar Kasim Ningi is happily married with many children. His Hobbie
   {
     name: "Zainab Abubakar Maikobi",
     position: "Deputy State Librarian",
-    department: "Technical Services",
+    department: "Library Administration",
     image: zainab_abubkar_maikobi,
     email: "f.usman@bauchilibrary.gov.ng",
     phone: "+234 802 345 6789",
