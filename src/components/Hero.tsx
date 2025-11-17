@@ -3,16 +3,18 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Image from "next/image";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {  ChevronLeft, ChevronRight } from "lucide-react";
 import slide1 from "@/assets/images/slide1.jpg";
 import slide2 from "@/assets/images/slide2.jpg";
 import slide3 from "@/assets/images/slide3.jpg";
+import slide4 from "@/assets/images/slide4.jpg";
 import { useState, useRef } from "react";
 
 const slides = [
   { id: 1, image: slide1, alt: "Bauchi State Library Interior" },
   { id: 2, image: slide2, alt: "Bauchi State Library Collection" },
   { id: 3, image: slide3, alt: "Bauchi State Library Reading Area" },
+  { id: 4, image: slide4, alt: "Bauchi State Library Reading Area" },
 ];
 
 export default function Hero() {
@@ -90,17 +92,6 @@ export default function Hero() {
                 Discover a world of books, resources, and community programs
                 designed to inspire and educate generations.
               </p>
-
-              {/* Call-to-Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
-                <button className="bg-yellow-600 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-xl font-semibold hover:bg-yellow-400 transition-all duration-300 flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105">
-                  Become a Member
-                  <ArrowRight className="ml-3 h-6 w-6" />
-                </button>
-                <button className="bg-white border-2 border-white text-gray-900 px-8 sm:px-10 py-4 sm:py-5 rounded-xl font-semibold hover:bg-yellow-400 hover:text-gray-900 transition-all duration-300 text-lg sm:text-xl backdrop-blur-sm">
-                  Explore Collections
-                </button>
-              </div>
             </div>
           </div>
         </div>
