@@ -3,7 +3,6 @@ import Hero from "../components/Hero";
 import StatsSection from "../components/StatsSection";
 import Services from "../components/Services";
 import FeaturedCollections from "../components/FeaturedCollections";
-import Footer from "../components/Footer";
 import BoardMembers from "../components/BoardMembers";
 
 export default function Home() {
@@ -15,8 +14,6 @@ export default function Home() {
       <Services />
       <BoardMembers />
       <FeaturedCollections />
-      
-      <Footer />
     </main>
   );
 }

@@ -40,7 +40,7 @@ export default function Navbar() {
               Collections
             </Link>
             <Link
-              href="#"
+              href="services-page"
               className="text-gray-700 hover:text-primary font-medium"
             >
               Services
@@ -96,7 +96,7 @@ export default function Navbar() {
                 Collections
               </Link>
               <Link
-                href="#"
+                href="services-page"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Services
