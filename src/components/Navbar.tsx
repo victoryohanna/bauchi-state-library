@@ -34,7 +34,7 @@ export default function Navbar() {
               About
             </Link>
             <Link
-              href="#"
+              href="/collections"
               className="text-gray-700 hover:text-primary font-medium"
             >
               Collections
@@ -90,7 +90,7 @@ export default function Navbar() {
                 About
               </Link>
               <Link
-                href="#"
+                href="/collections"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Collections
