@@ -163,8 +163,7 @@ function ChiefLibrarianImage({
       <Image
         src={src}
         alt={alt}
-        fill
-        className="object-cover"
+        
         priority={priority}
         onLoad={() => setIsLoading(false)}
         onError={() => {
