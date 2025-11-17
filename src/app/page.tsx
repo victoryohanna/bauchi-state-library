@@ -2,7 +2,7 @@
 import Hero from "../components/Hero";
 import StatsSection from "../components/StatsSection";
 import Services from "../components/Services";
-import FeaturedCollections from "../components/FeaturedCollections";
+// import FeaturedCollections from "../components/FeaturedCollections";
 import BoardMembers from "../components/BoardMembers";
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
       <StatsSection />
       <Services />
       <BoardMembers />
-      <FeaturedCollections />
+      {/* <FeaturedCollections /> */}
     </main>
   );
 }

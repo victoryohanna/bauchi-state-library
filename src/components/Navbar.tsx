@@ -46,12 +46,12 @@ export default function Navbar() {
               Services
             </Link>
 
-            <Link
+            {/* <Link
               href="#"
               className="text-gray-700 hover:text-primary font-medium"
             >
               Contact
-            </Link>
+            </Link> */}
 
             <button className="bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-400 transition duration-200">
               Member Login
@@ -102,12 +102,12 @@ export default function Navbar() {
                 Services
               </Link>
 
-              <Link
+              {/* <Link
                 href="#"
                 className="text-gray-700 hover:text-primary font-medium"
               >
                 Contact
-              </Link>
+              </Link> */}
 
               <button className="bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-400 transition duration-200">
                 Member Login
