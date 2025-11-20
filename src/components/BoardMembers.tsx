@@ -248,9 +248,9 @@ export default function BoardMembers() {
           {/* Other Board Members - Full width on mobile, col-3 on desktop */}
           <div className="lg:col-span-3">
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+              {/* <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
                 Board Members
-              </h3>
+              </h3> */}
 
               <div className="space-y-4 md:space-y-6">
                 {otherMembers.map((member, index) => (
