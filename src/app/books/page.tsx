@@ -1,9 +1,11 @@
+// components/book-discovery/BookDiscovery.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 import { SearchFilters } from "../../components/SearchFilters";
 import { BookGrid } from "../../components/BookGrid";
 import { LoadingSkeleton } from "../../components/LoadingSkeleton";
+import book from "@/assets/images/book.jpg"
 
 export interface Book {
   id: string;
@@ -43,13 +45,13 @@ export default function BookDiscovery(){
     const fetchBooks = async () => {
       setIsLoading(true);
       try {
-        // Mock data - replace with actual API call
+        // Mock data with placeholder images
         const mockBooks: Book[] = [
           {
             id: "1",
             title: "The Great Gatsby",
             author: "F. Scott Fitzgerald",
-            coverUrl: "/covers/great-gatsby.jpg",
+            coverUrl: {book}, // Use a placeholder
             isbn: "9780743273565",
             category: "Fiction",
             publishedYear: 1925,
@@ -62,7 +64,7 @@ export default function BookDiscovery(){
             id: "2",
             title: "To Kill a Mockingbird",
             author: "Harper Lee",
-            coverUrl: "/covers/mockingbird.jpg",
+            coverUrl: {book},
             isbn: "9780061120084",
             category: "Fiction",
             publishedYear: 1960,
@@ -75,7 +77,7 @@ export default function BookDiscovery(){
             id: "3",
             title: "A Brief History of Time",
             author: "Stephen Hawking",
-            coverUrl: "/covers/time-history.jpg",
+            coverUrl: {book},
             isbn: "9780553380163",
             category: "Science",
             publishedYear: 1988,
@@ -83,6 +85,45 @@ export default function BookDiscovery(){
             availableCopies: 2,
             totalCopies: 2,
             rating: 4.6,
+          },
+          {
+            id: "4",
+            title: "Things Fall Apart",
+            author: "Chinua Achebe",
+            coverUrl: {book},
+            isbn: "9780385474542",
+            category: "Fiction",
+            publishedYear: 1958,
+            description: "A classic African novel...",
+            availableCopies: 4,
+            totalCopies: 6,
+            rating: 4.7,
+          },
+          {
+            id: "5",
+            title: "Half of a Yellow Sun",
+            author: "Chimamanda Ngozi Adichie",
+            coverUrl: {book},
+            isbn: "9780007200283",
+            category: "Fiction",
+            publishedYear: 2006,
+            description: "A novel about the Nigerian Civil War...",
+            availableCopies: 2,
+            totalCopies: 3,
+            rating: 4.8,
+          },
+          {
+            id: "6",
+            title: "The Secret Lives of Baba Segi's Wives",
+            author: "Lola Shoneyin",
+            coverUrl: {book},
+            isbn: "9781846687630",
+            category: "Fiction",
+            publishedYear: 2010,
+            description: "A polygamous family drama...",
+            availableCopies: 1,
+            totalCopies: 2,
+            rating: 4.4,
           },
         ];
         setBooks(mockBooks);
@@ -164,6 +205,10 @@ export default function BookDiscovery(){
     return <LoadingSkeleton />;
   }
 
+  const filtersSidebarClass = isMobileFiltersOpen
+    ? "fixed inset-0 z-50 bg-white p-6 overflow-y-auto lg:hidden"
+    : "hidden lg:block lg:w-80 flex-shrink-0";
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -206,13 +251,7 @@ export default function BookDiscovery(){
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
-          <div
-            className={
-              isMobileFiltersOpen
-                ? "fixed inset-0 z-50 bg-white p-6 overflow-y-auto lg:hidden"
-                : "hidden lg:block lg:w-80 shrink-0"
-            }
-          >
+          <div className={filtersSidebarClass}>
             {isMobileFiltersOpen && (
               <div className="flex justify-between items-center mb-6 lg:hidden">
                 <h2 className="text-lg font-semibold">Filters</h2>
