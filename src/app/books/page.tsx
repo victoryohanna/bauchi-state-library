@@ -198,7 +198,7 @@ export default function BookDiscovery() {
           mockBooks.map(async (book) => {
             const coverUrl = BookCoverService.generateCoverUrl(
               book.isbn,
-              book.title
+             
             );
 
             // Validate if the cover exists, fallback to placeholder if not
