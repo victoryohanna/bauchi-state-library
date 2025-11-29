@@ -1,9 +1,9 @@
 // components/staff/dashboard/StatsCards.tsx
 export default function StatsCards() {
   const stats = [
-    { label: "Total Books", value: "12,458", change: "+2.3%", trend: "up" },
-    { label: "Active Members", value: "3,247", change: "+5.1%", trend: "up" },
-    { label: "Books on Loan", value: "892", change: "-1.2%", trend: "down" },
+    { label: "Total Books", value: "22,341", change: "+2.3%", trend: "up" },
+    { label: "Active Members", value: "15,000", change: "+5.1%", trend: "up" },
+    { label: "Books on Loan", value: "492", change: "-1.2%", trend: "down" },
     { label: "Overdue Books", value: "34", change: "-8.7%", trend: "down" },
   ];
 
