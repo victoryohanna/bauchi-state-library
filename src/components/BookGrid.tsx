@@ -1,7 +1,8 @@
 
 
-import { Book } from "./BookDiscovery";
+
 import { BookCard } from "./BookCard";
+import { Book } from "../types/library"; 
 
 interface BookGridProps {
   books: Book[];
