@@ -11,9 +11,9 @@ const navigation = [
   { name: "Dashboard", href: "/staff", icon: "📊" },
   { name: "Circulation", href: "/staff/circulation", icon: "📚" },
   { name: "Catalog Management", href: "/staff/catalog", icon: "📖" },
-  { name: "Member Management", href: "/staff/members", icon: "👥" },
-  { name: "Reports & Analytics", href: "/staff/reports", icon: "📈" },
-  { name: "System Admin", href: "/staff/admin", icon: "⚙️" },
+  { name: "Member Management", href: "#", icon: "👥" },
+  { name: "Reports & Analytics", href: "#", icon: "📈" },
+  { name: "System Admin", href: "#", icon: "⚙️" },
 ];
 
 export default function StaffLayout({
