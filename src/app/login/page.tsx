@@ -38,9 +38,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto h-16 w-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
-            <span className="text-white font-bold text-xl">BSL</span>
-          </div>
+          
           <h2 className="text-3xl font-bold text-gray-900">Staff Portal</h2>
           <p className="mt-2 text-gray-600">
             Sign in to access the library management system
@@ -55,40 +53,6 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
-
-            {/* Demo Credentials Banner */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-start">
-                <div className="shrink-0">
-                  <svg
-                    className="h-5 w-5 text-blue-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-blue-800">
-                    Demo Credentials
-                  </h3>
-                  <div className="mt-1 text-sm text-blue-700">
-                    <p>
-                      Username: <strong>admin</strong>
-                    </p>
-                    <p>
-                      Password: <strong>123456</strong>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             <div>
               <label
