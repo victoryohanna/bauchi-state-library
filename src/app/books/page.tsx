@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { SearchFilters } from "../../components/SearchFilters";
 import { BookGrid } from "../../components/BookGrid";
 import { LoadingSkeleton } from "../../components/LoadingSkeleton";
-import book from "@/assets/images/book.jpg"
 
 export interface Book {
   id: string;
@@ -28,7 +27,36 @@ export interface SearchFiltersType {
   sortBy: string;
 }
 
-export default function BookDiscovery(){
+// Cover service utility
+class BookCoverService {
+  static generateCoverUrl(isbn: string): string {
+    if (!isbn) {
+      return "/images/book-placeholder.jpg";
+    }
+
+    // Try Open Library first (free, no API key needed)
+    const openLibraryUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
+
+    // You can add more services here later
+    return openLibraryUrl;
+  }
+
+  static async validateCoverUrl(url: string): Promise<boolean> {
+    if (url === "/images/book-placeholder.jpg") {
+      return true; // Local placeholder always exists
+    }
+
+    try {
+      const response = await fetch(url, { method: "HEAD" });
+      return response.ok;
+    } catch (error) {
+      console.log(error)
+      return false;
+    }
+  }
+}
+
+export default function BookDiscovery() {
   const [books, setBooks] = useState<Book[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [filters, setFilters] = useState<SearchFiltersType>({
@@ -40,96 +68,188 @@ export default function BookDiscovery(){
   const [isLoading, setIsLoading] = useState(true);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
-  // Fetch books (replace with your API)
+  // Fetch books from your API
   useEffect(() => {
     const fetchBooks = async () => {
       setIsLoading(true);
       try {
-        // Mock data with placeholder images
+        // In a real app, this would be an API call to your backend
+        // const response = await fetch('/api/books');
+        // const booksData = await response.json();
+
+        // Mock data with real ISBNs for Nigerian/African literature
         const mockBooks: Book[] = [
           {
             id: "1",
-            title: "The Great Gatsby",
-            author: "F. Scott Fitzgerald",
-            coverUrl: {book}, // Use a placeholder
-            isbn: "9780743273565",
-            category: "Fiction",
-            publishedYear: 1925,
-            description: "A classic novel of the Jazz Age...",
-            availableCopies: 3,
-            totalCopies: 5,
-            rating: 4.5,
-          },
-          {
-            id: "2",
-            title: "To Kill a Mockingbird",
-            author: "Harper Lee",
-            coverUrl: {book},
-            isbn: "9780061120084",
-            category: "Fiction",
-            publishedYear: 1960,
-            description: "A gripping tale of racial injustice...",
-            availableCopies: 0,
-            totalCopies: 3,
-            rating: 4.8,
-          },
-          {
-            id: "3",
-            title: "A Brief History of Time",
-            author: "Stephen Hawking",
-            coverUrl: {book},
-            isbn: "9780553380163",
-            category: "Science",
-            publishedYear: 1988,
-            description: "Exploring the nature of time and universe...",
-            availableCopies: 2,
-            totalCopies: 2,
-            rating: 4.6,
-          },
-          {
-            id: "4",
             title: "Things Fall Apart",
             author: "Chinua Achebe",
-            coverUrl: {book},
             isbn: "9780385474542",
+            coverUrl: "", // Will be generated
             category: "Fiction",
             publishedYear: 1958,
-            description: "A classic African novel...",
+            description:
+              "A classic novel about the clash of traditional African culture and colonial influences...",
             availableCopies: 4,
             totalCopies: 6,
             rating: 4.7,
           },
           {
-            id: "5",
+            id: "2",
             title: "Half of a Yellow Sun",
             author: "Chimamanda Ngozi Adichie",
-            coverUrl: {book},
             isbn: "9780007200283",
+            coverUrl: "",
             category: "Fiction",
             publishedYear: 2006,
-            description: "A novel about the Nigerian Civil War...",
+            description:
+              "A powerful story about the Nigerian Civil War and its impact on ordinary people...",
             availableCopies: 2,
             totalCopies: 3,
             rating: 4.8,
           },
           {
-            id: "6",
+            id: "3",
             title: "The Secret Lives of Baba Segi's Wives",
             author: "Lola Shoneyin",
-            coverUrl: {book},
             isbn: "9781846687630",
+            coverUrl: "",
             category: "Fiction",
             publishedYear: 2010,
-            description: "A polygamous family drama...",
+            description:
+              "A dramatic and humorous exploration of polygamy in modern Nigeria...",
             availableCopies: 1,
             totalCopies: 2,
             rating: 4.4,
           },
+          {
+            id: "4",
+            title: "Purple Hibiscus",
+            author: "Chimamanda Ngozi Adichie",
+            isbn: "9780007189885",
+            coverUrl: "",
+            category: "Fiction",
+            publishedYear: 2003,
+            description:
+              "A coming-of-age story set in post-colonial Nigeria...",
+            availableCopies: 3,
+            totalCopies: 4,
+            rating: 4.6,
+          },
+          {
+            id: "5",
+            title: "Arrow of God",
+            author: "Chinua Achebe",
+            isbn: "9780385089200",
+            coverUrl: "",
+            category: "Fiction",
+            publishedYear: 1964,
+            description:
+              "The third book in Achebe's African trilogy about traditional Igbo society...",
+            availableCopies: 2,
+            totalCopies: 3,
+            rating: 4.5,
+          },
+          {
+            id: "6",
+            title: "Stay With Me",
+            author: "Ayobami Adebayo",
+            isbn: "9781524733449",
+            coverUrl: "",
+            category: "Fiction",
+            publishedYear: 2017,
+            description:
+              "A devastating story of marriage, motherhood, and the power of family...",
+            availableCopies: 2,
+            totalCopies: 2,
+            rating: 4.3,
+          },
+          {
+            id: "7",
+            title: "The Fishermen",
+            author: "Chigozie Obioma",
+            isbn: "9780316338370",
+            coverUrl: "",
+            category: "Fiction",
+            publishedYear: 2015,
+            description:
+              "A striking debut novel about brotherhood and fate in 1990s Nigeria...",
+            availableCopies: 1,
+            totalCopies: 2,
+            rating: 4.2,
+          },
+          {
+            id: "8",
+            title: "Americanah",
+            author: "Chimamanda Ngozi Adichie",
+            isbn: "9780307455925",
+            coverUrl: "",
+            category: "Fiction",
+            publishedYear: 2013,
+            description:
+              "A story of love, race, and identity spanning Nigeria and the United States...",
+            availableCopies: 3,
+            totalCopies: 5,
+            rating: 4.7,
+          },
         ];
-        setBooks(mockBooks);
-        setFilteredBooks(mockBooks);
+
+        // Generate cover URLs and validate them
+        const booksWithCovers = await Promise.all(
+          mockBooks.map(async (book) => {
+            const coverUrl = BookCoverService.generateCoverUrl(
+              book.isbn,
+              book.title
+            );
+
+            // Validate if the cover exists, fallback to placeholder if not
+            const coverExists = await BookCoverService.validateCoverUrl(
+              coverUrl
+            );
+
+            return {
+              ...book,
+              coverUrl: coverExists ? coverUrl : "/images/book-placeholder.jpg",
+            };
+          })
+        );
+
+        setBooks(booksWithCovers);
+        setFilteredBooks(booksWithCovers);
       } catch (error) {
         console.error("Error fetching books:", error);
+        // Fallback to basic data without cover validation
+        const fallbackBooks: Book[] = [
+          {
+            id: "1",
+            title: "Things Fall Apart",
+            author: "Chinua Achebe",
+            isbn: "9780385474542",
+            coverUrl: "/images/book-placeholder.jpg",
+            category: "Fiction",
+            publishedYear: 1958,
+            description:
+              "A classic novel about the clash of traditional African culture and colonial influences...",
+            availableCopies: 4,
+            totalCopies: 6,
+            rating: 4.7,
+          },
+          {
+            id: "2",
+            title: "Half of a Yellow Sun",
+            author: "Chimamanda Ngozi Adichie",
+            isbn: "9780007200283",
+            coverUrl: "/images/book-placeholder.jpg",
+            category: "Fiction",
+            publishedYear: 2006,
+            description:
+              "A powerful story about the Nigerian Civil War and its impact on ordinary people...",
+            availableCopies: 2,
+            totalCopies: 3,
+            rating: 4.8,
+          },
+        ];
+        setBooks(fallbackBooks);
+        setFilteredBooks(fallbackBooks);
       } finally {
         setIsLoading(false);
       }
@@ -292,4 +412,4 @@ export default function BookDiscovery(){
       </div>
     </div>
   );
-};
+}

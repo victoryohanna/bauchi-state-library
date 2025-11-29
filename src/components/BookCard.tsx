@@ -1,6 +1,6 @@
-// components/book-discovery/BookCard.tsx
-import { Book } from "./BookDiscovery";
+// components/BookCard.tsx
 import Image from "next/image";
+import { Book } from "./BookDiscovery";
 
 interface BookCardProps {
   book: Book;
@@ -9,26 +9,21 @@ interface BookCardProps {
 export const BookCard = ({ book }: BookCardProps) => {
   const isAvailable = book.availableCopies > 0;
 
-  // Function to handle image errors
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    // Fallback to a data URL or placeholder
-    e.currentTarget.src =
-      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDIwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik03NSA3NUgxMjVWMTI1SDc1Vjc1WiIgZmlsbD0iIzlDQThBRiIvPgo8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzlDQThBRiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0Ij5Cb29rIENvdmVyPC90ZXh0Pgo8L3N2Zz4K";
-  };
-
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 overflow-hidden">
       {/* Book Cover */}
       <div className="aspect-3/4 bg-gray-200 relative">
         <Image
-          src={book}
+          src={book.coverUrl}
           alt={`Cover of ${book.title}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="object-cover"
-         
+          onError={(e) => {
+            // Fallback to placeholder if image fails to load
+            const target = e.target as HTMLImageElement;
+            target.src = "/images/book-placeholder.jpg";
+          }}
         />
         {/* Availability Badge */}
         <div
@@ -94,4 +89,3 @@ export const BookCard = ({ book }: BookCardProps) => {
     </div>
   );
 };
-
