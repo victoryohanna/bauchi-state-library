@@ -1,6 +1,6 @@
 // components/BookCard.tsx
 import Image from "next/image";
-import { Book } from "../../../types/library"; 
+import { Book } from "../types/library"; 
 
 interface BookCardProps {
   book: Book;
