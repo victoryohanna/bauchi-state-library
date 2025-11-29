@@ -1,11 +1,10 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { SearchFilters } from "../../components/SearchFilters";
 import { BookGrid } from "../../components/BookGrid";
 import { LoadingSkeleton } from "../../components/LoadingSkeleton";
-import {Book, SearchFiltersType} from "../../types/library"
+import { Book, SearchFiltersType } from "../../types/library";
 
 // Cover service utility
 class BookCoverService {
@@ -30,7 +29,7 @@ class BookCoverService {
       const response = await fetch(url, { method: "HEAD" });
       return response.ok;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return false;
     }
   }
@@ -53,10 +52,6 @@ export default function BookDiscovery() {
     const fetchBooks = async () => {
       setIsLoading(true);
       try {
-        // In a real app, this would be an API call to your backend
-        // const response = await fetch('/api/books');
-        // const booksData = await response.json();
-
         // Mock data with real ISBNs for Nigerian/African literature
         const mockBooks: Book[] = [
           {
@@ -176,10 +171,7 @@ export default function BookDiscovery() {
         // Generate cover URLs and validate them
         const booksWithCovers = await Promise.all(
           mockBooks.map(async (book) => {
-            const coverUrl = BookCoverService.generateCoverUrl(
-              book.isbn,
-             
-            );
+            const coverUrl = BookCoverService.generateCoverUrl(book.isbn);
 
             // Validate if the cover exists, fallback to placeholder if not
             const coverExists = await BookCoverService.validateCoverUrl(
@@ -311,43 +303,50 @@ export default function BookDiscovery() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Discover Books
-              </h1>
-              <p className="mt-2 text-gray-600">
-                Explore our collection of {books.length} books
-              </p>
-            </div>
+      {/* Hero Header Section */}
+      <div className="bg-linear-to-r from-blue-600 to-blue-800 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="py-12 md:py-16">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              {/* Header Text */}
+              <div className="flex-1 text-center md:text-left mb-6 md:mb-0">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+                  Discover Our Collection
+                </h1>
+                <p className="text-lg sm:text-xl text-blue-100 max-w-3xl">
+                  Explore our vast collection of books, journals,
+                  and resources spanning various subjects and interests
+                </p>
+              </div>
 
-            {/* Mobile Filter Button */}
-            <button
-              onClick={() => setIsMobileFiltersOpen(true)}
-              className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 lg:hidden"
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
-                />
-              </svg>
-              Filters
-            </button>
+              {/* Mobile Filter Button - Positioned properly */}
+              <div className="flex justify-center md:justify-end">
+                <button
+                  onClick={() => setIsMobileFiltersOpen(true)}
+                  className="inline-flex items-center px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow-md hover:bg-blue-50 hover:shadow-lg transition-all duration-200 lg:hidden"
+                >
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
+                    />
+                  </svg>
+                  Search Books
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
