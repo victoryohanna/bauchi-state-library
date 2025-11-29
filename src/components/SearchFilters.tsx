@@ -1,6 +1,7 @@
 
 
-import { SearchFiltersType } from "./BookDiscovery";
+import { SearchFiltersType } from "../types/library";
+
 
 interface SearchFiltersProps {
   filters: SearchFiltersType;
