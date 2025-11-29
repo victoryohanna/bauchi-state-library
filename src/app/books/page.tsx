@@ -7,27 +7,6 @@ import { BookGrid } from "../../components/BookGrid";
 import { LoadingSkeleton } from "../../components/LoadingSkeleton";
 import {Book, SearchFiltersType} from "../../types/library"
 
-// export interface Book {
-//   id: string;
-//   title: string;
-//   author: string;
-//   coverUrl: string;
-//   isbn: string;
-//   category: string;
-//   publishedYear: number;
-//   description: string;
-//   availableCopies: number;
-//   totalCopies: number;
-//   rating: number;
-// }
-
-// export interface SearchFiltersType {
-//   query: string;
-//   category: string;
-//   availability: string;
-//   sortBy: string;
-// }
-
 // Cover service utility
 class BookCoverService {
   static generateCoverUrl(isbn: string): string {

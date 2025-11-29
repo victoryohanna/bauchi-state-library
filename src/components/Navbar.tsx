@@ -34,7 +34,7 @@ export default function Navbar() {
               About
             </Link>
             <Link
-              href="/collections"
+              href="/books"
               className="text-gray-700 hover:text-primary font-medium"
             >
               Collections
