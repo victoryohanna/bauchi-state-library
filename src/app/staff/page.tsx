@@ -1,13 +1,20 @@
 // app/staff/page.tsx
+"use client";
+
 import StatsCards from "../../components/staff/dashboard/StatsCards";
 import QuickActions from "../../components/staff/dashboard/QuickActions";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function StaffDashboard() {
+  const { user } = useAuth();
+
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
       <div className="bg-linear-to-r from-blue-600 to-purple-700 rounded-2xl p-8 text-white">
-        <h1 className="text-3xl font-bold mb-2">Welcome back, Admin! </h1>
+        <h1 className="text-3xl font-bold mb-2">
+          Welcome back, {user?.username}! 
+        </h1>
         <p className="text-blue-100 text-lg">
           Here&apos;s what&apos;s happening at Bauchi State Library today
         </p>
