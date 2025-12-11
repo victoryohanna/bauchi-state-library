@@ -1,51 +1,55 @@
-// components/staff/catalog/EditBookForm.tsx
+// components/staff/catalog/EditBookForm.tsx - UPDATE PROPS
 "use client";
 
 import { useState } from "react";
-
-interface Book {
-  id: string;
-  title: string;
-  author: string;
-  isbn: string;
-  category: string;
-  publishedYear: number;
-  copies: number;
-  available: number;
-}
+import { Book, BookFormData } from "../../../types/library";
 
 interface EditBookFormProps {
   book: Book;
   onCancel: () => void;
+  onSubmit: (bookData: Partial<BookFormData>) => Promise<void>; // Update this
 }
 
-export default function EditBookForm({ book, onCancel }: EditBookFormProps) {
-  const [formData, setFormData] = useState({
+export default function EditBookForm({
+  book,
+  onCancel,
+  onSubmit,
+}: EditBookFormProps) {
+  const [formData, setFormData] = useState<Partial<BookFormData>>({
     title: book.title,
     author: book.author,
     isbn: book.isbn,
     category: book.category,
-    publishedYear: book.publishedYear,
-    copies: book.copies,
-    available: book.available,
+    publicationYear: book.publishedYear,
+    totalCopies: book.totalCopies,
+    description: book.description,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Updating book:", formData);
-    onCancel();
+    setIsSubmitting(true);
+
+    try {
+      await onSubmit(formData);
+    } catch (error) {
+      console.error("Error updating book:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]:
-        name === "publishedYear" || name === "copies" || name === "available"
-          ? parseInt(value)
+        name === "publicationYear" || name === "totalCopies"
+          ? parseInt(value) || 0
           : value,
     }));
   };
@@ -137,16 +141,16 @@ export default function EditBookForm({ book, onCancel }: EditBookFormProps) {
 
           <div>
             <label
-              htmlFor="publishedYear"
+              htmlFor="publicationYear"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
               Published Year
             </label>
             <input
               type="number"
-              id="publishedYear"
-              name="publishedYear"
-              value={formData.publishedYear}
+              id="publicationYear"
+              name="publicationYear"
+              value={formData.publicationYear}
               onChange={handleChange}
               min="1900"
               max={new Date().getFullYear()}
@@ -156,37 +160,18 @@ export default function EditBookForm({ book, onCancel }: EditBookFormProps) {
 
           <div>
             <label
-              htmlFor="copies"
+              htmlFor="totalCopies"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
               Total Copies
             </label>
             <input
               type="number"
-              id="copies"
-              name="copies"
-              value={formData.copies}
+              id="totalCopies"
+              name="totalCopies"
+              value={formData.totalCopies}
               onChange={handleChange}
               min="1"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="available"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Available Copies
-            </label>
-            <input
-              type="number"
-              id="available"
-              name="available"
-              value={formData.available}
-              onChange={handleChange}
-              min="0"
-              max={formData.copies}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -197,14 +182,16 @@ export default function EditBookForm({ book, onCancel }: EditBookFormProps) {
             type="button"
             onClick={onCancel}
             className="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors duration-200"
+            disabled={isSubmitting}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isSubmitting}
           >
-            Update Book
+            {isSubmitting ? "Updating..." : "Update Book"}
           </button>
         </div>
       </form>

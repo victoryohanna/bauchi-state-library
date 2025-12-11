@@ -1,28 +1,37 @@
-// components/staff/catalog/AddBookForm.tsx
+// components/staff/catalog/AddBookForm.tsx - UPDATE PROPS
 "use client";
 
 import { useState } from "react";
+import { BookFormData } from "../../../types/library";
 
 interface AddBookFormProps {
   onCancel: () => void;
+  onSubmit: (bookData: BookFormData) => Promise<void>; // Add this
 }
 
-export default function AddBookForm({ onCancel }: AddBookFormProps) {
-  const [formData, setFormData] = useState({
+export default function AddBookForm({ onCancel, onSubmit }: AddBookFormProps) {
+  const [formData, setFormData] = useState<BookFormData>({
     title: "",
     author: "",
     isbn: "",
     category: "",
-    publishedYear: new Date().getFullYear(),
-    copies: 1,
+    totalCopies: 1,
+    publicationYear: new Date().getFullYear(),
     description: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Adding book:", formData);
-    onCancel();
+    setIsSubmitting(true);
+
+    try {
+      await onSubmit(formData);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -34,7 +43,9 @@ export default function AddBookForm({ onCancel }: AddBookFormProps) {
     setFormData((prev) => ({
       ...prev,
       [name]:
-        name === "publishedYear" || name === "copies" ? parseInt(value) : value,
+        name === "publicationYear" || name === "totalCopies"
+          ? parseInt(value) || 0
+          : value,
     }));
   };
 
@@ -121,21 +132,24 @@ export default function AddBookForm({ onCancel }: AddBookFormProps) {
               <option value="History">History</option>
               <option value="Biography">Biography</option>
               <option value="Children">Children</option>
+              <option value="Religion">Religion</option>
+              <option value="Education">Education</option>
+              <option value="Reference">Reference</option>
             </select>
           </div>
 
           <div>
             <label
-              htmlFor="publishedYear"
+              htmlFor="publicationYear"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
               Published Year
             </label>
             <input
               type="number"
-              id="publishedYear"
-              name="publishedYear"
-              value={formData.publishedYear}
+              id="publicationYear"
+              name="publicationYear"
+              value={formData.publicationYear}
               onChange={handleChange}
               min="1900"
               max={new Date().getFullYear()}
@@ -145,16 +159,16 @@ export default function AddBookForm({ onCancel }: AddBookFormProps) {
 
           <div>
             <label
-              htmlFor="copies"
+              htmlFor="totalCopies"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
               Number of Copies
             </label>
             <input
               type="number"
-              id="copies"
-              name="copies"
-              value={formData.copies}
+              id="totalCopies"
+              name="totalCopies"
+              value={formData.totalCopies}
               onChange={handleChange}
               min="1"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -184,14 +198,16 @@ export default function AddBookForm({ onCancel }: AddBookFormProps) {
             type="button"
             onClick={onCancel}
             className="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors duration-200"
+            disabled={isSubmitting}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isSubmitting}
           >
-            Add Book
+            {isSubmitting ? "Adding..." : "Add Book"}
           </button>
         </div>
       </form>

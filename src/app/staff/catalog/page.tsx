@@ -51,16 +51,13 @@ export default function CatalogPage() {
     }
   };
 
+  // In your app/staff/catalog/page.tsx - Update handlers
   const handleAddBook = async (bookData: BookFormData) => {
     try {
-      // In real app, uncomment this:
-      // const response = await booksApi.createBook(bookData);
-      // console.log("Book added:", response.book);
-
-      // For now, simulate success
-      console.log("Book added:", bookData);
+      // Your implementation
+      console.log("Adding book:", bookData);
       setActiveView("browse");
-      fetchBooks(); // Refresh the list
+      fetchBooks();
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to add book";
@@ -74,14 +71,10 @@ export default function CatalogPage() {
     bookData: Partial<BookFormData>
   ) => {
     try {
-      // In real app, uncomment this:
-      // const response = await booksApi.updateBook(id, bookData);
-      // console.log("Book updated:", response.book);
-
-      // For now, simulate success
-      console.log("Book updated:", { id, ...bookData });
+      // Your implementation
+      console.log("Updating book:", { id, ...bookData });
       setActiveView("browse");
-      fetchBooks(); // Refresh the list
+      fetchBooks();
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to update book";
@@ -89,25 +82,6 @@ export default function CatalogPage() {
       alert(errorMessage);
     }
   };
-
-  const handleDeleteBook = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this book?")) return;
-
-    try {
-      // In real app, uncomment this:
-      // await booksApi.deleteBook(id);
-
-      // For now, simulate success
-      console.log("Book deleted:", id);
-      fetchBooks(); // Refresh the list
-    } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to delete book";
-      console.error("Error deleting book:", err);
-      alert(errorMessage);
-    }
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
