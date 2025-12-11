@@ -99,7 +99,7 @@ export default function BookDiscovery() {
                 _id: apiBook._id || apiBook.id || "",
                 title: apiBook.title,
                 author: apiBook.author,
-                coverUrl: apiBook.coverImage || "/images/book-placeholder.jpg",
+                coverUrl: apiBook.coverImage || "/images/book-placeholder.jpg", // Use coverImage for coverUrl
                 coverImage: apiBook.coverImage,
                 isbn: apiBook.isbn,
                 category: apiBook.category,
@@ -135,11 +135,12 @@ export default function BookDiscovery() {
             return;
           }
         }
+
         // If API fails or returns no data, use mock data
         console.log("API not available, using mock data");
         const mockBooks: Book[] = [
           {
-            _id: "1", // Changed from id to _id
+            _id: "1",
             title: "Things Fall Apart",
             author: "Chinua Achebe",
             isbn: "9780385474542",
@@ -153,7 +154,7 @@ export default function BookDiscovery() {
             rating: 4.7,
           },
           {
-            _id: "2", // Changed from id to _id
+            _id: "2",
             title: "Half of a Yellow Sun",
             author: "Chimamanda Ngozi Adichie",
             isbn: "9780007200283",
@@ -167,7 +168,7 @@ export default function BookDiscovery() {
             rating: 4.8,
           },
           {
-            _id: "3", // Changed from id to _id
+            _id: "3",
             title: "The Secret Lives of Baba Segi's Wives",
             author: "Lola Shoneyin",
             isbn: "9781846687630",
@@ -181,7 +182,7 @@ export default function BookDiscovery() {
             rating: 4.4,
           },
           {
-            _id: "4", // Changed from id to _id
+            _id: "4",
             title: "Purple Hibiscus",
             author: "Chimamanda Ngozi Adichie",
             isbn: "9780007189885",
@@ -195,7 +196,7 @@ export default function BookDiscovery() {
             rating: 4.6,
           },
           {
-            _id: "5", // Changed from id to _id
+            _id: "5",
             title: "Arrow of God",
             author: "Chinua Achebe",
             isbn: "9780385089200",
@@ -209,7 +210,7 @@ export default function BookDiscovery() {
             rating: 4.5,
           },
           {
-            _id: "6", // Changed from id to _id
+            _id: "6",
             title: "Stay With Me",
             author: "Ayobami Adebayo",
             isbn: "9781524733449",
@@ -223,7 +224,7 @@ export default function BookDiscovery() {
             rating: 4.3,
           },
           {
-            _id: "7", // Changed from id to _id
+            _id: "7",
             title: "The Fishermen",
             author: "Chigozie Obioma",
             isbn: "9780316338370",
@@ -237,7 +238,7 @@ export default function BookDiscovery() {
             rating: 4.2,
           },
           {
-            _id: "8", // Changed from id to _id
+            _id: "8",
             title: "Americanah",
             author: "Chimamanda Ngozi Adichie",
             isbn: "9780307455925",
@@ -276,7 +277,7 @@ export default function BookDiscovery() {
         // Fallback to basic data without cover validation
         const fallbackBooks: Book[] = [
           {
-            _id: "1", // Changed from id to _id
+            _id: "1",
             title: "Things Fall Apart",
             author: "Chinua Achebe",
             isbn: "9780385474542",
@@ -290,7 +291,7 @@ export default function BookDiscovery() {
             rating: 4.7,
           },
           {
-            _id: "2", // Changed from id to _id
+            _id: "2",
             title: "Half of a Yellow Sun",
             author: "Chimamanda Ngozi Adichie",
             isbn: "9780007200283",

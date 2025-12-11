@@ -1,34 +1,36 @@
 // types/library.ts
+// types/library.ts - Update Book interface
 export interface Book {
   _id: string;
   title: string;
   author: string;
-  coverImage: string;
+  coverUrl: string;  // For frontend display
+  coverImage?: string;  // For backend compatibility
   isbn: string;
   category: string;
-  publicationYear?: number;
-  description?: string;
+  publishedYear: number;
+  description: string;
   availableCopies: number;
   totalCopies: number;
   rating: number;
-  ratingCount: number;
-  status: string;
-  publisher?: string;
-  edition?: string;
-  language: string;
-  pages?: number;
-  shelfLocation?: string;
-  callNumber?: string;
-  barcode: string;
-  keywords: string[];
-  addedBy: {
+  ratingCount?: number;
+  status?: string;
+  barcode?: string;
+  keywords?: string[];
+  addedBy?: {
     _id: string;
     firstName: string;
     lastName: string;
     staffId: string;
   };
-  addedDate: string;
-  lastUpdated: string;
+  addedDate?: string;
+  lastUpdated?: string;
+  publisher?: string;
+  edition?: string;
+  language?: string;
+  pages?: number;
+  shelfLocation?: string;
+  callNumber?: string;
 }
 
 export interface User {
