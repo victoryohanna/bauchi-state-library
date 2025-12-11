@@ -1,3 +1,4 @@
+// app/books/page.tsx - FIXED VERSION
 "use client";
 
 import { useState, useEffect } from "react";
@@ -52,10 +53,93 @@ export default function BookDiscovery() {
     const fetchBooks = async () => {
       setIsLoading(true);
       try {
-        // Mock data with real ISBNs for Nigerian/African literature
+        // First, try to fetch from your actual API
+        const response = await fetch("http://localhost:5000/api/books");
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.books) {
+            // Define interface for API book response
+            interface ApiBookResponse {
+              _id: string;
+              id?: string;
+              title: string;
+              author: string;
+              coverImage?: string;
+              isbn: string;
+              category: string;
+              publicationYear?: number;
+              publishedYear?: number;
+              description?: string;
+              availableCopies: number;
+              totalCopies: number;
+              rating?: number;
+              ratingCount?: number;
+              status?: string;
+              barcode?: string;
+              keywords?: string[];
+              addedBy?: {
+                _id: string;
+                firstName: string;
+                lastName: string;
+                staffId: string;
+              };
+              addedDate?: string;
+              lastUpdated?: string;
+              publisher?: string;
+              edition?: string;
+              language?: string;
+              pages?: number;
+              shelfLocation?: string;
+              callNumber?: string;
+            }
+
+            // Transform API data to match our frontend Book type
+            const apiBooks: Book[] = data.books.map(
+              (apiBook: ApiBookResponse) => ({
+                _id: apiBook._id || apiBook.id || "",
+                title: apiBook.title,
+                author: apiBook.author,
+                coverUrl: apiBook.coverImage || "/images/book-placeholder.jpg",
+                coverImage: apiBook.coverImage,
+                isbn: apiBook.isbn,
+                category: apiBook.category,
+                publishedYear:
+                  apiBook.publicationYear ||
+                  apiBook.publishedYear ||
+                  new Date().getFullYear(),
+                description:
+                  apiBook.description ||
+                  `${apiBook.title} by ${apiBook.author}`,
+                availableCopies: apiBook.availableCopies,
+                totalCopies: apiBook.totalCopies,
+                rating: apiBook.rating || 0,
+                ratingCount: apiBook.ratingCount,
+                status: apiBook.status,
+                barcode: apiBook.barcode,
+                keywords: apiBook.keywords || [],
+                addedBy: apiBook.addedBy,
+                addedDate: apiBook.addedDate,
+                lastUpdated: apiBook.lastUpdated,
+                publisher: apiBook.publisher,
+                edition: apiBook.edition,
+                language: apiBook.language || "English",
+                pages: apiBook.pages,
+                shelfLocation: apiBook.shelfLocation,
+                callNumber: apiBook.callNumber,
+              })
+            );
+
+            setBooks(apiBooks);
+            setFilteredBooks(apiBooks);
+            setIsLoading(false);
+            return;
+          }
+        }
+        // If API fails or returns no data, use mock data
+        console.log("API not available, using mock data");
         const mockBooks: Book[] = [
           {
-            id: "1",
+            _id: "1", // Changed from id to _id
             title: "Things Fall Apart",
             author: "Chinua Achebe",
             isbn: "9780385474542",
@@ -69,7 +153,7 @@ export default function BookDiscovery() {
             rating: 4.7,
           },
           {
-            id: "2",
+            _id: "2", // Changed from id to _id
             title: "Half of a Yellow Sun",
             author: "Chimamanda Ngozi Adichie",
             isbn: "9780007200283",
@@ -83,7 +167,7 @@ export default function BookDiscovery() {
             rating: 4.8,
           },
           {
-            id: "3",
+            _id: "3", // Changed from id to _id
             title: "The Secret Lives of Baba Segi's Wives",
             author: "Lola Shoneyin",
             isbn: "9781846687630",
@@ -97,7 +181,7 @@ export default function BookDiscovery() {
             rating: 4.4,
           },
           {
-            id: "4",
+            _id: "4", // Changed from id to _id
             title: "Purple Hibiscus",
             author: "Chimamanda Ngozi Adichie",
             isbn: "9780007189885",
@@ -111,7 +195,7 @@ export default function BookDiscovery() {
             rating: 4.6,
           },
           {
-            id: "5",
+            _id: "5", // Changed from id to _id
             title: "Arrow of God",
             author: "Chinua Achebe",
             isbn: "9780385089200",
@@ -125,7 +209,7 @@ export default function BookDiscovery() {
             rating: 4.5,
           },
           {
-            id: "6",
+            _id: "6", // Changed from id to _id
             title: "Stay With Me",
             author: "Ayobami Adebayo",
             isbn: "9781524733449",
@@ -139,7 +223,7 @@ export default function BookDiscovery() {
             rating: 4.3,
           },
           {
-            id: "7",
+            _id: "7", // Changed from id to _id
             title: "The Fishermen",
             author: "Chigozie Obioma",
             isbn: "9780316338370",
@@ -153,7 +237,7 @@ export default function BookDiscovery() {
             rating: 4.2,
           },
           {
-            id: "8",
+            _id: "8", // Changed from id to _id
             title: "Americanah",
             author: "Chimamanda Ngozi Adichie",
             isbn: "9780307455925",
@@ -192,7 +276,7 @@ export default function BookDiscovery() {
         // Fallback to basic data without cover validation
         const fallbackBooks: Book[] = [
           {
-            id: "1",
+            _id: "1", // Changed from id to _id
             title: "Things Fall Apart",
             author: "Chinua Achebe",
             isbn: "9780385474542",
@@ -206,7 +290,7 @@ export default function BookDiscovery() {
             rating: 4.7,
           },
           {
-            id: "2",
+            _id: "2", // Changed from id to _id
             title: "Half of a Yellow Sun",
             author: "Chimamanda Ngozi Adichie",
             isbn: "9780007200283",
@@ -314,8 +398,8 @@ export default function BookDiscovery() {
                   Discover Our Collection
                 </h1>
                 <p className="text-lg sm:text-xl text-blue-100 max-w-3xl">
-                  Explore our vast collection of books, journals,
-                  and resources spanning various subjects and interests
+                  Explore our vast collection of books, journals, and resources
+                  spanning various subjects and interests
                 </p>
               </div>
 
