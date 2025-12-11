@@ -28,7 +28,8 @@ export default function QuickActions() {
       title: "Register Member",
       description: "Add new library members",
       icon: "👤",
-      href: "/staff/members",
+      href: "#",
+      // href: "/staff/members",
       color: "bg-orange-50 border-orange-200 text-orange-700",
     },
   ];
