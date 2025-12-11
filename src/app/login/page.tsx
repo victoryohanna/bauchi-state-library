@@ -1,7 +1,7 @@
 // app/login/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -14,21 +14,25 @@ export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
     try {
-      const success = await login(username, password);
+      const success = await login({ username, password });
       if (success) {
         router.push("/staff");
       } else {
         setError("Invalid username or password");
       }
-    } catch (err) {
-        console.log(err)
-      setError("An error occurred. Please try again.");
+    } catch (err: unknown) {
+      console.error("Login error:", err);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An error occurred. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +43,6 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          
           <h2 className="text-3xl font-bold text-gray-900">Staff Portal</h2>
           <p className="mt-2 text-gray-600">
             Sign in to access the library management system
@@ -71,6 +74,7 @@ export default function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                 placeholder="Enter your username"
+                autoComplete="username"
               />
             </div>
 
@@ -90,8 +94,20 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                 placeholder="Enter your password"
+                autoComplete="current-password"
               />
             </div>
+
+            {/* Demo Credentials Note */}
+            {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700">
+              <p className="font-medium">Demo Credentials:</p>
+              <p>
+                Username: <span className="font-mono">admin</span>
+              </p>
+              <p>
+                Password: <span className="font-mono">123456</span>
+              </p>
+            </div> */}
 
             <button
               type="submit"
@@ -123,6 +139,10 @@ export default function LoginPage() {
         {/* Footer */}
         <div className="text-center text-sm text-gray-500">
           <p>Bauchi State Library Management System</p>
+          <p className="mt-1 text-xs">
+            Backend API:{" "}
+            {process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}
+          </p>
         </div>
       </div>
     </div>

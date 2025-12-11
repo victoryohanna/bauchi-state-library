@@ -1,15 +1,44 @@
 // components/staff/dashboard/StatsCards.tsx
-export default function StatsCards() {
-  const stats = [
-    { label: "Total Books", value: "22,341", change: "+2.3%", trend: "up" },
-    { label: "Active Members", value: "15,000", change: "+5.1%", trend: "up" },
-    { label: "Books on Loan", value: "492", change: "-1.2%", trend: "down" },
-    { label: "Overdue Books", value: "34", change: "-8.7%", trend: "down" },
+interface StatsCardsProps {
+  stats: {
+    totalBooks: number;
+    activeMembers: number;
+    booksOnLoan: number;
+    overdueBooks: number;
+  };
+}
+
+export default function StatsCards({ stats }: StatsCardsProps) {
+  const statsData = [
+    {
+      label: "Total Books",
+      value: stats.totalBooks.toLocaleString(),
+      change: "+2.3%",
+      trend: "up",
+    },
+    {
+      label: "Active Members",
+      value: stats.activeMembers.toLocaleString(),
+      change: "+5.1%",
+      trend: "up",
+    },
+    {
+      label: "Books on Loan",
+      value: stats.booksOnLoan.toLocaleString(),
+      change: "-1.2%",
+      trend: "down",
+    },
+    {
+      label: "Overdue Books",
+      value: stats.overdueBooks.toLocaleString(),
+      change: "-8.7%",
+      trend: "down",
+    },
   ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {stats.map((stat, index) => (
+      {statsData.map((stat, index) => (
         <div
           key={index}
           className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6"

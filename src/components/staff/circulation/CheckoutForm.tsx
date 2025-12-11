@@ -3,32 +3,35 @@
 
 import { useState } from "react";
 
-export default function CheckoutForm() {
+interface CheckoutFormProps {
+  onSubmit: (data: { memberId: string; bookId: string }) => Promise<void>;
+}
+
+export default function CheckoutForm({ onSubmit }: CheckoutFormProps) {
   const [memberId, setMemberId] = useState("");
   const [bookId, setBookId] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Calculate due date only when needed, not during render
-  const getDueDate = () => {
-    const dueDate = new Date();
-    dueDate.setDate(dueDate.getDate() + 14); // 2 weeks from now
-    return dueDate.toLocaleDateString();
-  };
-
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!memberId || !bookId) return;
+
     setIsProcessing(true);
+    try {
+      await onSubmit({ memberId, bookId });
+      setMemberId("");
+      setBookId("");
+    } catch (error) {
+      console.error("Checkout error:", error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Reset form
-    setMemberId("");
-    setBookId("");
-    setIsProcessing(false);
-
-    // Show success message
-    alert("Book checked out successfully!");
+  const getDueDate = () => {
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + 14);
+    return dueDate.toLocaleDateString();
   };
 
   return (
@@ -74,7 +77,7 @@ export default function CheckoutForm() {
           />
         </div>
 
-        {/* Member & Book Preview (would be populated from search) */}
+        {/* Member & Book Preview */}
         {(memberId || bookId) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
             <div>
@@ -97,7 +100,7 @@ export default function CheckoutForm() {
 
           <button
             type="submit"
-            disabled={isProcessing}
+            disabled={isProcessing || !memberId || !bookId}
             className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             {isProcessing ? "Processing..." : "Check Out Book"}

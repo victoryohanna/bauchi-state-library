@@ -8,15 +8,13 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-
-interface User {
-  username: string;
-  role: "staff" | "admin";
-}
+import { User, LoginCredentials } from "../types/library";
+import { authApi } from "../utils/api";
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string, password: string) => Promise<boolean>;
+  token: string | null;
+  login: (credentials: LoginCredentials) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -25,18 +23,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on mount using a function
     const checkAuthStatus = () => {
+      const savedToken = localStorage.getItem("library-token");
       const savedUser = localStorage.getItem("library-user");
-      if (savedUser) {
+
+      if (savedToken && savedUser) {
         try {
-          const userData = JSON.parse(savedUser);
+          const userData: User = JSON.parse(savedUser);
+          setToken(savedToken);
           setUser(userData);
         } catch (error) {
-          console.error("Error parsing saved user data:", error);
+          console.error("Error parsing saved auth data:", error);
+          localStorage.removeItem("library-token");
           localStorage.removeItem("library-user");
         }
       }
@@ -46,34 +48,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkAuthStatus();
   }, []);
 
-  const login = async (
-    username: string,
-    password: string
-  ): Promise<boolean> => {
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  const login = async (credentials: LoginCredentials): Promise<boolean> => {
+    try {
+      const response = await authApi.login(credentials);
 
-    // Hardcoded credentials for demo
-    if (username === "admin" && password === "123456") {
-      const userData: User = {
-        username: "admin",
-        role: "admin",
-      };
-      setUser(userData);
-      localStorage.setItem("library-user", JSON.stringify(userData));
+      localStorage.setItem("library-token", response.token);
+      localStorage.setItem("library-user", JSON.stringify(response.user));
+
+      setToken(response.token);
+      setUser(response.user);
       return true;
+    } catch (error) {
+      console.error("Login error:", error);
+      return false;
     }
-
-    return false;
   };
 
   const logout = () => {
-    setUser(null);
+    authApi.logout().catch(console.error);
+
+    localStorage.removeItem("library-token");
     localStorage.removeItem("library-user");
+    setToken(null);
+    setUser(null);
   };
 
   const value: AuthContextType = {
     user,
+    token,
     login,
     logout,
     isLoading,

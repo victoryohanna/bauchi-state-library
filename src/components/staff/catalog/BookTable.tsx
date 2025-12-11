@@ -1,55 +1,49 @@
 // components/staff/catalog/BookTable.tsx
 "use client";
 
-interface Book {
-  id: string;
-  title: string;
-  author: string;
-  isbn: string;
-  category: string;
-  publishedYear: number;
-  copies: number;
-  available: number;
-}
+import { useState } from "react";
+import { Book } from "../../../types/library";
 
 interface BookTableProps {
+  books: Book[];
+  loading: boolean;
   onEditBook: (book: Book) => void;
+  onDeleteBook: (id: string) => void;
 }
 
-export default function BookTable({ onEditBook }: BookTableProps) {
-  // Mock data - in real app, this would come from an API
-  const books: Book[] = [
-    {
-      id: "1",
-      title: "Things Fall Apart",
-      author: "Chinua Achebe",
-      isbn: "9780385474542",
-      category: "Fiction",
-      publishedYear: 1958,
-      copies: 5,
-      available: 3,
-    },
-    {
-      id: "2",
-      title: "Half of a Yellow Sun",
-      author: "Chimamanda Ngozi Adichie",
-      isbn: "9780007200283",
-      category: "Fiction",
-      publishedYear: 2006,
-      copies: 3,
-      available: 1,
-    },
-    {
-      id: "3",
-      title: "There Was a Country",
-      author: "Chinua Achebe",
-      isbn: "9780143124030",
-      category: "Biography",
-      publishedYear: 2012,
-      copies: 2,
-      available: 2,
-    },
-  ];
+export default function BookTable({
+  books,
+  loading,
+  onEditBook,
+  onDeleteBook,
+}: BookTableProps) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+
+  const filteredBooks = books.filter((book) => {
+    const matchesSearch =
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.isbn.includes(searchTerm);
+    const matchesCategory =
+      categoryFilter === "all" || book.category === categoryFilter;
+    return matchesSearch && matchesCategory;
+  });
+
+  const categories = [...new Set(books.map((book) => book.category))];
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-10 bg-gray-200 rounded"></div>
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-16 bg-gray-200 rounded"></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-200">
@@ -58,15 +52,23 @@ export default function BookTable({ onEditBook }: BookTableProps) {
           <div className="flex-1">
             <input
               type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search books by title, author, or ISBN..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          <select className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            <option>All Categories</option>
-            <option>Fiction</option>
-            <option>Non-Fiction</option>
-            <option>Science</option>
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="all">All Categories</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -96,8 +98,8 @@ export default function BookTable({ onEditBook }: BookTableProps) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {books.map((book) => (
-              <tr key={book.id} className="hover:bg-gray-50">
+            {filteredBooks.map((book) => (
+              <tr key={book._id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="font-medium text-gray-900">{book.title}</div>
                 </td>
@@ -115,12 +117,12 @@ export default function BookTable({ onEditBook }: BookTableProps) {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`px-2 py-1 text-xs font-medium rounded-full ${
-                      book.available > 0
+                      book.availableCopies > 0
                         ? "bg-green-100 text-green-800"
                         : "bg-red-100 text-red-800"
                     }`}
                   >
-                    {book.available}/{book.copies} available
+                    {book.availableCopies}/{book.totalCopies} available
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -130,7 +132,10 @@ export default function BookTable({ onEditBook }: BookTableProps) {
                   >
                     Edit
                   </button>
-                  <button className="text-red-600 hover:text-red-900">
+                  <button
+                    onClick={() => onDeleteBook(book._id)}
+                    className="text-red-600 hover:text-red-900"
+                  >
                     Delete
                   </button>
                 </td>
