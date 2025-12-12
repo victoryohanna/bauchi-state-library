@@ -1,4 +1,3 @@
-// app/staff/catalog/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -82,6 +81,35 @@ export default function CatalogPage() {
       alert(errorMessage);
     }
   };
+
+  // Add the missing handleDeleteBook function
+  const handleDeleteBook = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this book?")) {
+      return;
+    }
+
+    try {
+      // Try to delete from API first
+      try {
+        await booksApi.deleteBook(id);
+      } catch (apiError) {
+        console.log("API not available, using mock deletion");
+        // For mock data, just filter out the deleted book
+        setBooks(prevBooks => prevBooks.filter(book => book._id !== id));
+        return;
+      }
+
+      // Refresh the book list
+      setActiveView("browse");
+      fetchBooks();
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to delete book";
+      console.error("Error deleting book:", err);
+      alert(errorMessage);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
