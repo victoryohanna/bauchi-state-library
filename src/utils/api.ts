@@ -1,4 +1,3 @@
-// utils/api.ts
 import {
   Book,
   User,
@@ -24,18 +23,24 @@ export async function apiRequest<T = unknown>(
 ): Promise<T> {
   const token = localStorage.getItem("library-token");
 
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    ...options.headers,
   };
 
+  // Add Authorization header if token exists
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
 
+  // Merge with any additional headers from options
+  const finalHeaders = {
+    ...headers,
+    ...(options.headers as Record<string, string> || {}),
+  };
+
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    headers,
+    headers: finalHeaders,
   });
 
   const data: ApiResponse<T> = await response.json();
