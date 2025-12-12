@@ -6,6 +6,9 @@ import {
   PaginatedResponse,
   BookFormData,
   LoginCredentials,
+  Stats, // Add Stats import
+  Loan, // Add Loan import
+  Member, // Add Member import
 } from "../types/library";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
