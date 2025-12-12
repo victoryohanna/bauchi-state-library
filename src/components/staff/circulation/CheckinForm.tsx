@@ -1,25 +1,33 @@
-// components/staff/circulation/CheckinForm.tsx
 "use client";
 
 import { useState } from "react";
+import { CheckinData } from "../../../types/library";
 
-export default function CheckinForm() {
+interface CheckinFormProps {
+  onSubmit: (data: CheckinData) => Promise<void>;
+}
+
+export default function CheckinForm({ onSubmit }: CheckinFormProps) {
   const [bookId, setBookId] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleCheckin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!bookId) return;
+
     setIsProcessing(true);
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Reset form
-    setBookId("");
-    setIsProcessing(false);
-
-    // Show success message
-    alert("Book checked in successfully!");
+    try {
+      // Pass data to parent component
+      await onSubmit({ 
+        bookId, 
+        loanId: "" // You can modify this to include loanId if needed
+      });
+      setBookId("");
+    } catch (error) {
+      console.error("Checkin error:", error);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -28,7 +36,7 @@ export default function CheckinForm() {
         Check In Book
       </h2>
 
-      <form onSubmit={handleCheckin} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label
             htmlFor="bookId"
@@ -65,7 +73,7 @@ export default function CheckinForm() {
         <div className="flex justify-end pt-6 border-t border-gray-200">
           <button
             type="submit"
-            disabled={isProcessing}
+            disabled={isProcessing || !bookId}
             className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             {isProcessing ? "Processing..." : "Check In Book"}
