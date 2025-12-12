@@ -1,19 +1,18 @@
-// app/staff/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 import StatsCards from "../../components/staff/dashboard/StatsCards";
 import QuickActions from "../../components/staff/dashboard/QuickActions";
 import { useAuth } from "../../contexts/AuthContext";
-import { Activity, DashboardStats } from "../../types/library";
+import { Activity, Stats } from "../../types/library";
 
 export default function StaffDashboard() {
   const { user } = useAuth();
-  const [stats, setStats] = useState<DashboardStats>({
+  const [stats, setStats] = useState<Stats>({
     totalBooks: 0,
-    activeMembers: 0,
-    booksOnLoan: 0,
-    overdueBooks: 0,
+    totalMembers: 0,
+    activeLoans: 0,
+    overdueLoans: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -33,15 +32,23 @@ export default function StaffDashboard() {
       // Mock data - replace with actual API call
       setStats({
         totalBooks: 22341,
-        activeMembers: 15000,
-        booksOnLoan: 492,
-        overdueBooks: 34,
+        totalMembers: 15000,
+        activeLoans: 492,
+        overdueLoans: 34,
       });
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Map Stats interface to StatsCardsProps format
+  const statsForCards = {
+    totalBooks: stats.totalBooks,
+    activeMembers: stats.totalMembers, // Map totalMembers to activeMembers
+    booksOnLoan: stats.activeLoans,    // Map activeLoans to booksOnLoan
+    overdueBooks: stats.overdueLoans,  // Map overdueLoans to overdueBooks
   };
 
   return (
@@ -72,7 +79,7 @@ export default function StaffDashboard() {
           ))}
         </div>
       ) : (
-        <StatsCards stats={stats} />
+        <StatsCards stats={statsForCards} />
       )}
 
       {/* Quick Actions */}
