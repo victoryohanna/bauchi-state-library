@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       "covers.openlibrary.org",
       "books.google.com",
       "via.placeholder.com",
+      "res.cloudinary.com", // Add Cloudinary domain here
     ],
     remotePatterns: [
       {
@@ -25,7 +26,17 @@ const nextConfig: NextConfig = {
         hostname: "via.placeholder.com",
         pathname: "/**",
       },
+      // Add Cloudinary remote pattern
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**", // This allows all paths from Cloudinary
+      },
     ],
+  },
+  // Optional: Add if you're using experimental features
+  experimental: {
+    serverActions: true, // If you're using server actions
   },
 };
 

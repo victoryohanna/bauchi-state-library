@@ -6,12 +6,33 @@ import {
   PaginatedResponse,
   BookFormData,
   LoginCredentials,
-  Stats, // Add Stats import
-  Loan, // Add Loan import
-  Member, // Add Member import
+  Stats,
+  Loan, 
+  Member, 
 } from "../types/library";
 
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+
+
+// Use a function that gets the token from localStorage directly
+export const getAuthHeaders = (includeContentType = false): HeadersInit => {
+  const headers: HeadersInit = {};
+  
+  // Get token from localStorage
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  
+  // Only add Content-Type for JSON requests, not for FormData
+  if (includeContentType) {
+    headers["Content-Type"] = "application/json";
+  }
+  
+  return headers;
+};
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -92,58 +113,135 @@ export interface BooksQueryParams {
 }
 
 export const booksApi = {
-  getBooks: async (
-    params?: BooksQueryParams
-  ): Promise<PaginatedResponse<Book>> => {
-    const queryString = params
-      ? new URLSearchParams(params as Record<string, string>).toString()
-      : "";
-    return apiRequest<PaginatedResponse<Book>>(
-      `/books${queryString ? `?${queryString}` : ""}`
-    );
+  // Get all books
+  async getBooks(filters?: {
+    page?: number;
+    limit?: number;
+    category?: string;
+    search?: string;
+  }): Promise<PaginatedResponse<Book>> {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value) params.append(key, value.toString());
+      });
+    }
+
+    const response = await fetch(`${API_URL}/api/books?${params}`, {
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch books");
+    }
+
+    return response.json();
   },
 
-  getBook: async (id: string): Promise<{ book: Book }> => {
-    return apiRequest<{ book: Book }>(`/books/${id}`);
-  },
+  // Add new book with file upload
+  async addBook(formData: FormData): Promise<ApiResponse<Book>> {
+    // Get token directly
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  createBook: async (bookData: BookFormData): Promise<{ book: Book }> => {
-    return apiRequest<{ book: Book }>("/books", {
+    if (!token) {
+      throw new Error("No authentication token found. Please login again.");
+    }
+
+    const response = await fetch(`${API_URL}/api/books`, {
       method: "POST",
-      body: JSON.stringify(bookData),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // Don't set Content-Type for FormData - browser will set it automatically
+      },
+      body: formData,
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to add book");
+    }
+
+    return response.json();
   },
 
-  updateBook: async (
+  // Update book
+  async updateBook(
     id: string,
-    bookData: Partial<BookFormData>
-  ): Promise<{ book: Book }> => {
-    return apiRequest<{ book: Book }>(`/books/${id}`, {
+    data: Partial<BookFormData>
+  ): Promise<ApiResponse<Book>> {
+    const response = await fetch(`${API_URL}/api/books/${id}`, {
       method: "PUT",
-      body: JSON.stringify(bookData),
+      headers: {
+        ...getAuthHeaders(),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     });
+
+    if (!response.ok) {
+      throw new Error("Failed to update book");
+    }
+
+    return response.json();
   },
 
-  deleteBook: async (
-    id: string
-  ): Promise<{ success: boolean; message: string }> => {
-    return apiRequest<{ success: boolean; message: string }>(`/books/${id}`, {
+  // Delete book
+  async deleteBook(id: string): Promise<ApiResponse<void>> {
+    const response = await fetch(`${API_URL}/api/books/${id}`, {
       method: "DELETE",
+      headers: getAuthHeaders(),
     });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete book");
+    }
+
+    return response.json();
   },
 
-  searchBooks: async (
-    query: string
-  ): Promise<{ count: number; books: Book[] }> => {
-    return apiRequest<{ count: number; books: Book[] }>(
-      `/books/search?q=${encodeURIComponent(query)}`
-    );
+  // Upload PDF to existing book
+  async uploadPdf(bookId: string, pdfFile: File): Promise<ApiResponse<Book>> {
+    const formData = new FormData();
+    formData.append("pdfFile", pdfFile);
+
+    const response = await fetch(`${API_URL}/api/books/${bookId}/upload-pdf`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to upload PDF");
+    }
+
+    return response.json();
   },
 
-  getCategories: async (): Promise<{ categories: string[] }> => {
-    return apiRequest<{ categories: string[] }>("/books/categories");
+  // Download book PDF
+  async downloadPdf(bookId: string): Promise<void> {
+    const response = await fetch(`${API_URL}/api/books/${bookId}/download`, {
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to download PDF");
+    }
+
+    // Handle the download
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `book-${bookId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   },
 };
+
+
 
 // For file uploads
 export const uploadApi = {

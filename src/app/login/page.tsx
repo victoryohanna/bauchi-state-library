@@ -1,4 +1,3 @@
-// app/login/page.tsx
 "use client";
 
 import { useState, FormEvent } from "react";
@@ -20,18 +19,15 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const success = await login({ username, password });
-      if (success) {
-        router.push("/staff");
-      } else {
-        setError("Invalid username or password");
-      }
+      // FIX: Pass username and password as separate parameters, not as an object
+      await login(username, password);
+      router.push("/staff");
     } catch (err: unknown) {
       console.error("Login error:", err);
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("An error occurred. Please try again.");
+        setError("Invalid username or password");
       }
     } finally {
       setIsLoading(false);
@@ -98,17 +94,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Demo Credentials Note */}
-            {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700">
-              <p className="font-medium">Demo Credentials:</p>
-              <p>
-                Username: <span className="font-mono">admin</span>
-              </p>
-              <p>
-                Password: <span className="font-mono">123456</span>
-              </p>
-            </div> */}
-
             <button
               type="submit"
               disabled={isLoading}
@@ -142,6 +127,9 @@ export default function LoginPage() {
           <p className="mt-1 text-xs">
             Backend API:{" "}
             {process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}
+          </p>
+          <p className="mt-2 text-xs text-gray-400">
+            Default credentials: admin / 123456
           </p>
         </div>
       </div>

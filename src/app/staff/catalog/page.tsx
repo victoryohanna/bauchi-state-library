@@ -6,6 +6,9 @@ import EditBookForm from "../../../components/staff/catalog/EditBookForm";
 import BookTable from "../../../components/staff/catalog/BookTable";
 import { Book, BookFormData } from "../../../types/library";
 import { booksApi } from "../../../utils/api";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useRouter } from "next/navigation";
+
 
 type CatalogView = "browse" | "add" | "edit";
 
@@ -15,6 +18,8 @@ export default function CatalogPage() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user, token, logout } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (activeView === "browse") {
@@ -37,7 +42,7 @@ export default function CatalogPage() {
           setBooks(getMockBooks());
         }
       } catch (apiError) {
-        console.log("API not available, using mock data");
+        console.log("API not available, using mock data", apiError);
         setBooks(getMockBooks());
       }
     } catch (err: unknown) {
@@ -49,19 +54,67 @@ export default function CatalogPage() {
       setLoading(false);
     }
   };
-
-  // In your app/staff/catalog/page.tsx - Update handlers
-  const handleAddBook = async (bookData: BookFormData) => {
+  // Handle adding a new book with file uploads
+  const handleAddBook = async (formData: FormData) => {
     try {
-      // Your implementation
-      console.log("Adding book:", bookData);
+      setError(null);
+
+      // Check if user is authenticated
+      if (!token) {
+        throw new Error("You are not authenticated. Please login again.");
+      }
+
+      // Check if user has permission
+      if (!user || (user.role !== "admin" && user.role !== "librarian")) {
+        throw new Error("You don't have permission to add books.");
+      }
+
+      // Debug: Log form data before sending
+      console.log("Submitting form data...");
+
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
+        }/api/books`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Handle 401 Unauthorized specifically
+        if (response.status === 401) {
+          logout();
+          router.push("/login");
+          throw new Error("Session expired. Please login again.");
+        }
+        throw new Error(
+          data.message || `Failed to add book (Status: ${response.status})`
+        );
+      }
+
+      if (!data.success) {
+        throw new Error(data.message || "Failed to add book");
+      }
+
+      // Show success message
+      alert("Book added successfully!");
+
+      // Switch back to browse view and refresh
       setActiveView("browse");
       fetchBooks();
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to add book";
       console.error("Error adding book:", err);
-      alert(errorMessage);
+      setError(errorMessage);
+      alert(`Error: ${errorMessage}`);
     }
   };
 
@@ -70,7 +123,7 @@ export default function CatalogPage() {
     bookData: Partial<BookFormData>
   ) => {
     try {
-      // Your implementation
+      // Your existing update logic
       console.log("Updating book:", { id, ...bookData });
       setActiveView("browse");
       fetchBooks();
@@ -82,7 +135,6 @@ export default function CatalogPage() {
     }
   };
 
-  // Add the missing handleDeleteBook function
   const handleDeleteBook = async (id: string) => {
     if (!confirm("Are you sure you want to delete this book?")) {
       return;
@@ -93,9 +145,9 @@ export default function CatalogPage() {
       try {
         await booksApi.deleteBook(id);
       } catch (apiError) {
-        console.log("API not available, using mock deletion");
+        console.log("API not available, using mock deletion", apiError);
         // For mock data, just filter out the deleted book
-        setBooks(prevBooks => prevBooks.filter(book => book._id !== id));
+        setBooks((prevBooks) => prevBooks.filter((book) => book._id !== id));
         return;
       }
 
@@ -120,12 +172,14 @@ export default function CatalogPage() {
           <p className="mt-2 text-gray-600">Manage library book collection</p>
         </div>
 
-        <button
-          onClick={() => setActiveView("add")}
-          className="mt-4 sm:mt-0 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
-        >
-          + Add New Book
-        </button>
+        {user && (user.role === "admin" || user.role === "librarian") && (
+          <button
+            onClick={() => setActiveView("add")}
+            className="mt-4 sm:mt-0 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+          >
+            + Add New Book
+          </button>
+        )}
       </div>
 
       {error && (
@@ -163,6 +217,7 @@ export default function CatalogPage() {
     </div>
   );
 }
+
 
 // Helper function for mock data
 function getMockBooks(): Book[] {
