@@ -54,6 +54,7 @@ export interface AuthResponse {
   error?: string;
 }
 
+//
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
