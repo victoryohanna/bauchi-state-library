@@ -36,7 +36,7 @@ const nextConfig: NextConfig = {
   },
   // Optional: Add if you're using experimental features
   experimental: {
-    serverActions: true, // If you're using server actions
+    serverActions: {},
   },
 };
 
