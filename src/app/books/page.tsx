@@ -54,7 +54,11 @@ export default function BookDiscovery() {
       setIsLoading(true);
       try {
         // First, try to fetch from your actual API
-        const response = await fetch("http://localhost:5000/api/books");
+        const response = await fetch(
+          `${
+            process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
+          }/api/books`
+        );
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.books) {
